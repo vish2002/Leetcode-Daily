@@ -1,5 +1,5 @@
 // 846. Hand of Straights
-// LeetCode: Medium 07-06-2024
+// LeetCode: Medium 06-06-2024
 
 bool isNStraightHand(vector<int>& hand, int groupSize) {
         int n=hand.size();
