@@ -46,3 +46,25 @@ int longestSubarray(vector<int>& nums, int limit) {
     }
     return validmaxi;
 }
+
+
+// Using Multiset 
+    int longestSubarray(vector<int>& nums, int limit) {
+        int n=nums.size();
+        int validmaxi=0;
+        int i=0;
+        int j=0;
+        multiset<int> s;
+        while(j<n)
+        {
+            s.insert(nums[j]);
+            while(*s.rbegin()-*s.begin()>limit)
+            {
+                s.erase(s.find(nums[i]));
+                i++;
+            }
+            validmaxi=max(validmaxi,j-i+1);
+            j++;
+        }
+    return validmaxi;
+    }
