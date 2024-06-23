@@ -21,3 +21,28 @@ int longestSubarray(vector<int>& nums, int limit) {
     }
     return validmaxi;
 }
+// Efficient approach using sliding window 
+
+int longestSubarray(vector<int>& nums, int limit) {
+    priority_queue<pair<int, int>, vector<pair<int, int>>> maxheap;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> minheap;
+    int validmaxi = 0;
+    int i = 0;
+    int j = 0;
+    int n = nums.size();
+    while (j < n) {
+        maxheap.push({nums[j], j});
+        minheap.push({nums[j], j});
+        while(maxheap.top().first - minheap.top().first>limit)
+        {
+            i=min(maxheap.top().second ,minheap.top().second)+1;
+            while(maxheap.top().second<i)
+            maxheap.pop();
+            while(minheap.top().second<i)
+            minheap.pop();
+        }      
+        validmaxi = max(validmaxi, j - i + 1);
+        j++;
+    }
+    return validmaxi;
+}
