@@ -1,6 +1,7 @@
 // 1937. Maximum Number of Points with Cost
 // LeetCode : Medium 17-08-2024
 
+// DP Approach + Prefix and Suffix Array Approach 
 class Solution {
 public:
     long long maxPoints(vector<vector<int>>& points) {
@@ -33,5 +34,34 @@ public:
             prev = curr;
         }
         return *max_element(begin(prev), end(prev));
+    }
+};
+
+// Recursion + Memoization( Gave TLE at 143 test case )
+
+class Solution {
+public:
+    long long solve(int i,int j,vector<vector<int>>& points,vector<vector<long long>> &dp)
+    {
+        if(i>=points.size())return 0;
+        if(dp[i][j]!=-1)return dp[i][j];
+        long long maxi=0;
+        for(int col=0;col<points[0].size();col++)
+        {
+            long long score=0;
+            score+=points[i][col];
+            if(i>0)
+            {
+                score-=abs(j-col);
+            }
+            maxi=max(maxi,score+solve(i+1,col,points,dp));
+        }
+        return dp[i][j]=maxi;
+    }
+    long long maxPoints(vector<vector<int>>& points) {
+        int m=points.size();
+        int n=points[0].size();
+        vector<vector<long long >> dp(m+1,vector<long long>(n+1,-1));
+        return solve(0,0,points,dp);
     }
 };
